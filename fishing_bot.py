@@ -110,17 +110,20 @@ class FishingBot:
 
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-
+        print("do_minigame")
         time.sleep(0.5)
 
         valid, location, size = self.image_detection.detect_bobber()
         if valid:
+            print("valid")
             if self.log_callback:
                 self.log_callback("Bobber detected. Solving minigame...")
 
             while self.state == "SOLVING":
+                print("pescando ....")
                 valid, location, size = self.image_detection.detect_bobber()
-                #print(f"valid  {valid}, location  {location}, size {size}")
+                print("pescando ....")
+                print(f"valid  {valid}, location  {location}, size {size}")
                 if valid:
                     if location[0] < size / 2:
                         pyautogui.mouseDown()
@@ -128,7 +131,8 @@ class FishingBot:
                         pyautogui.mouseUp()
                 else:
                     self.state = "CASTING"
-                    time.sleep(1)
+                    print("Termino la pesca ....")
+                    #time.sleep(1)
                     pyautogui.mouseUp()
                     break
         else:

@@ -5,11 +5,12 @@ class GUIManager:
     """
     Clase para manejar la interfaz gráfica de usuario (GUI) utilizando DearPyGui.
     """
-    def __init__(self, fishing_bot, settings_manager, bot_config_manager,image_detection):
+    def __init__(self, fishing_bot, settings_manager, bot_config_manager,image_detection,audio_manager):
         self.fishing_bot = fishing_bot
         self.settings_manager = settings_manager
         self.bot_config_manager = bot_config_manager
         self.image_detection = image_detection
+        self.audio_manager = audio_manager
 
     def setup_gui(self):
         """
@@ -111,6 +112,7 @@ class GUIManager:
         """
         max_volume = dpg.get_value("Set_Volume_Threshold")  # Obtener el valor del campo "Set Volume Threshold"
         self.settings_manager.set_setting('Settings', 'Volume_Threshold', max_volume)
+        self.audio_manager.max_volume=max_volume
         self.log_info(f'Max Volume Updated to: {max_volume}')
 
     def save_settings(self, sender, data):

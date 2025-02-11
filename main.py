@@ -22,7 +22,7 @@ def main():
     fishing_bot = FishingBot(bot_config_manager,audio_manager,image_detection, None)
     # Pasamos bot_config_manager, image_detection y el callback del log a FishingBot
     #fishing_bot = FishingBot(bot_config_manager,audio_manager, image_detection)
-    gui_manager = GUIManager(fishing_bot , settings_manager, bot_config_manager,image_detection)
+    gui_manager = GUIManager(fishing_bot , settings_manager, bot_config_manager,image_detection,audio_manager)
     
 
     # Configuración de la GUI
