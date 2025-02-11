@@ -39,7 +39,7 @@ class AudioManager:
         # Calcula el volumen RMS (Root Mean Square)
         rms_pure = np.sqrt(np.mean(np.square(audio_data)))
         rms= rms_pure*1000000
-        if rms>5000 : 
+        if rms>15000 : 
             print(f"Sonido puro:{rms_pure}")
             print(f"Sonido aumentado:{rms}")
             print(f"max_volume:{self.max_volume}")
@@ -55,7 +55,8 @@ class AudioManager:
         self.is_listening = True
         while self.is_listening:
             if self.check_volume():
-                callback()  # Llama al callback cuando se detecta un sonido fuerte
+                callback() # Llama al callback cuando se detecta un sonido fuerte
+                self.is_listening = False #Tratamos de detener el listening
             time.sleep(0.1)  # Esperar un poco antes de volver a escanear
 
     def stop_listening(self):

@@ -61,7 +61,7 @@ class GUIManager:
             # Logger para mostrar mensajes de información
             with dpg.group(horizontal=True):
                 dpg.add_text("Log:")
-                dpg.add_input_text(multiline=True, tag="Log_Info", width=600, height=300, readonly=True)
+                dpg.add_input_text(multiline=True, tag="Log_Info", width=600, height=200, readonly=True)
             # Desplazar al final del log automáticamente
             
         # Configurar el viewport
