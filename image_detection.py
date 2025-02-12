@@ -25,7 +25,7 @@ class ImageDetection:
             bobber = cv2.cvtColor(bobber, cv2.COLOR_RGB2BGR)
             result = cv2.matchTemplate(base, bobber, cv2.TM_CCOEFF_NORMED)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-            if max_val > 0.5:
+            if max_val > 0.55:
                 return True, max_loc, base.shape[1]
             else:
                 return False, max_loc, base.shape[1]

@@ -5,12 +5,13 @@ class GUIManager:
     """
     Clase para manejar la interfaz gráfica de usuario (GUI) utilizando DearPyGui.
     """
-    def __init__(self, fishing_bot, settings_manager, bot_config_manager,image_detection,audio_manager):
+    def __init__(self, fishing_bot, settings_manager, bot_config_manager,image_detection,audio_manager,miniGameSolver):
         self.fishing_bot = fishing_bot
         self.settings_manager = settings_manager
         self.bot_config_manager = bot_config_manager
         self.image_detection = image_detection
         self.audio_manager = audio_manager
+        self.miniGameSolver =miniGameSolver
 
     def setup_gui(self):
         """
@@ -44,6 +45,11 @@ class GUIManager:
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Start Bot", callback=self.start_bot)
                 dpg.add_tooltip(dpg.last_item(), label= "Starts the bot")
+
+            # Botón para iniciar asistente de pesca
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Start Asistent", callback=self.start_asistent)
+                dpg.add_tooltip(dpg.last_item(), label= "Inicia el asitente para pesca")    
             
             # Botón para detener el bot
           
@@ -86,7 +92,7 @@ class GUIManager:
         """
         self.bot_config_manager.grab_screen(log_callback=self.log_info)
         self.image_detection.screen_area = self.bot_confirg_manage.screen_area
-        self.log_info("Tracking zone updated.")
+        self.log_info(f"Tracking zone updated: {self.image_detection.screen_area}")
 
     def start_bot(self, sender, data):
         """
@@ -104,6 +110,7 @@ class GUIManager:
         """
         self.fishing_bot.state = "STOPPED"
         self.fishing_bot.audio_manager.stop_listening
+        self.miniGameSolver.status="STOP"
         self.log_info("Bot stopped.")
 
     def save_volume(self, sender, data):
@@ -127,3 +134,8 @@ class GUIManager:
         Muestra un mensaje en el logger de la GUI.
         """
         dpg.set_value("Log_Info", dpg.get_value("Log_Info") + message + "\n")
+
+    def start_asistent(self):
+        self.miniGameSolver.status="START"
+        threading.Thread(target=self.miniGameSolver.solve).start()
+            

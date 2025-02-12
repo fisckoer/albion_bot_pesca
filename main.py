@@ -4,6 +4,7 @@ from image_detection import ImageDetection
 from fishing_bot import FishingBot
 from gui_manager import GUIManager
 from bot_config_manager import BotConfigManager
+from mini_game_solved import MiniGameSolver
 
 
 
@@ -20,9 +21,10 @@ def main():
     image_detection = ImageDetection(screen_area)
     bot_config_manager = BotConfigManager()
     fishing_bot = FishingBot(bot_config_manager,audio_manager,image_detection, None)
+    miniGameSolver = MiniGameSolver(image_detection)
     # Pasamos bot_config_manager, image_detection y el callback del log a FishingBot
     #fishing_bot = FishingBot(bot_config_manager,audio_manager, image_detection)
-    gui_manager = GUIManager(fishing_bot , settings_manager, bot_config_manager,image_detection,audio_manager)
+    gui_manager = GUIManager(fishing_bot , settings_manager, bot_config_manager,image_detection,audio_manager,miniGameSolver)
     
 
     # Configuración de la GUI
