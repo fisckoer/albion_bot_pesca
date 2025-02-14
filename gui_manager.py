@@ -14,65 +14,53 @@ class GUIManager:
         self.miniGameSolver =miniGameSolver
 
     def setup_gui(self):
-        """
-        Configura la interfaz gráfica de usuario.
-        """
-        dpg.create_context()  # Crear el contexto de DearPyGui
-        dpg.create_viewport(title='Fisherman', width=700, height=500)  # Crear la ventana principal
+        dpg.create_context()
 
-        # Crear una ventana dentro del viewport
-        with dpg.window(label="Fisherman Window", width=684, height=460):
-            # Campo para la cantidad de puntos de pesca
-            dpg.add_input_int(label="Amount Of Spots", max_value=10, min_value=0, tag="Amount_Of_Spots")
-            
-            # Campo para el umbral de volumen
-            dpg.add_input_int(label="Set Volume Threshold", max_value=100000,callback = self.save_volume,
-                               min_value=0, default_value=int(self.settings_manager.get_setting('Settings', 'Volume_Threshold')), tag="Set_Volume_Threshold")
-            
-            # Botón para generar coordenadas de pesca
-            with dpg.group(horizontal=True):
-                dpg.add_button(label="Set Fishing Spots", width=130, callback=self.generate_coords)
-                dpg.add_tooltip(dpg.last_item(), label ="Starts function that lets you select fishing spots")
-            
-            # Botón para definir la zona de seguimiento
-            with dpg.group(horizontal=True):
-                dpg.add_button(label="Set Tracking Zone", callback=self.grab_screen)
-                dpg.add_tooltip(dpg.last_item(),label = "Sets zone bot tracks for solving fishing minigame")
-            
-            dpg.add_spacer(height=3)
-            
-            # Botón para iniciar el bot
-            with dpg.group(horizontal=True):
-                dpg.add_button(label="Start Bot", callback=self.start_bot)
-                dpg.add_tooltip(dpg.last_item(), label= "Starts the bot")
+        # Configuración de colores pastel en azules y grises
+        with dpg.theme() as global_theme:
+            with dpg.theme_component(dpg.mvAll):
+                dpg.add_theme_color(dpg.mvThemeCol_WindowBg, (0, 57, 104), category=dpg.mvThemeCat_Core)  # Azul oscuro BBVA
+                dpg.add_theme_color(dpg.mvThemeCol_Button, (0, 173, 239), category=dpg.mvThemeCat_Core)      # Azul claro BBVA
+                dpg.add_theme_color(dpg.mvThemeCol_ButtonHovered, (0, 123, 193), category=dpg.mvThemeCat_Core)
+                dpg.add_theme_color(dpg.mvThemeCol_ButtonActive, (0, 97, 159), category=dpg.mvThemeCat_Core)
+                dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (240, 240, 240), category=dpg.mvThemeCat_Core)   # Gris claro
+                dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 255, 255), category=dpg.mvThemeCat_Core)       # Blanco
+                dpg.add_theme_color(dpg.mvThemeCol_Text, (0, 0, 0), category=dpg.mvThemeCat_Core) 
+                dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+                dpg.add_theme_style(dpg.mvStyleVar_FramePadding, 5, 5, category=dpg.mvThemeCat_Core)
+              
+        # Cargar y aplicar una fuente en negritas
+        with dpg.font_registry():
+            bold_font = dpg.add_font("./robo/ROBO.ttf", 12)  # Reemplaza con la ruta a tu fuente
+        dpg.bind_font(bold_font)
 
-            # Botón para iniciar asistente de pesca
+        with dpg.window(label="Fisherman Control Panel", width=780, height=580, pos=(10, 10)):
             with dpg.group(horizontal=True):
-                dpg.add_button(label="Start Asistent", callback=self.start_asistent)
-                dpg.add_tooltip(dpg.last_item(), label= "Inicia el asitente para pesca")    
+                dpg.add_input_int(label="Amount Of Spots", max_value=10, min_value=0, tag="Amount_Of_Spots" , width=100)
+  
+                dpg.add_input_int(label="Volume Threshold", max_value=100000, callback=self.save_volume, 
+                                  min_value=0, default_value=int(self.settings_manager.get_setting('Settings', 'Volume_Threshold')), tag="Set_Volume_Threshold" , width=200)
+
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Set Fishing Spots", width=150, callback=self.generate_coords)
+                dpg.add_button(label="Set Tracking Zone", width=150, callback=self.grab_screen)
+
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Start Bot", width=150, callback=self.start_bot)
+                dpg.add_button(label="Start Assistant", width=150, callback=self.start_asistent)
+                dpg.add_button(label="Stop Bot", width=150, callback=self.stop_bot)
+                dpg.add_button(label="Save Settings", width=150, callback=self.save_settings)
+
+            dpg.add_separator()
+            dpg.add_text("Log:")
+            dpg.add_child_window(width=750, height=300, border=True, autosize_x=True, autosize_y=True)
+            dpg.add_input_text(multiline=True, tag="Log_Info", width=-1, height=-1, readonly=True, tracked=True)
             
-            # Botón para detener el bot
-          
-            with dpg.group(horizontal=True):
-                dpg.add_button(label="Stop Bot", callback=self.stop_bot)
-                dpg.add_tooltip(dpg.last_item(), label= "Stops the bot")
-            
-            # Botón para guardar la configuración
-          
-            with dpg.group(horizontal=True):
-                dpg.add_button(label="Save Settings", callback=self.save_settings)
-                dpg.add_tooltip(dpg.last_item(), label= "Saves bot settings to settings.ini")
-            
-            dpg.add_spacer(height=5)
-            #dpg.set_y_scroll("Log_Info", float('inf'))
-            # Logger para mostrar mensajes de información
-            with dpg.group(horizontal=True):
-                dpg.add_text("Log:")
-                dpg.add_input_text(multiline=True, tag="Log_Info", width=600, height=200, readonly=True)
-            # Desplazar al final del log automáticamente
+
             
         # Configurar el viewport
-        dpg.create_viewport(title='Fisherman', width=700, height=500)
+        dpg.bind_theme(global_theme)
+        dpg.create_viewport(title='Fisherman Bot', width=800, height=600)
         dpg.setup_dearpygui()
         dpg.show_viewport()
      
@@ -91,7 +79,7 @@ class GUIManager:
         Llama a la función para definir la zona de seguimiento.
         """
         self.bot_config_manager.grab_screen(log_callback=self.log_info)
-        self.image_detection.screen_area = self.bot_confirg_manage.screen_area
+        self.image_detection.screen_area = self.bot_config_manager.screen_area
         self.log_info(f"Tracking zone updated: {self.image_detection.screen_area}")
 
     def start_bot(self, sender, data):
@@ -138,4 +126,3 @@ class GUIManager:
     def start_asistent(self):
         self.miniGameSolver.status="START"
         threading.Thread(target=self.miniGameSolver.solve).start()
-            
