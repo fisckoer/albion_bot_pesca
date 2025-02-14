@@ -39,7 +39,7 @@ class MiniGameSolver:
                         pyautogui.mouseUp()
                         break
             else:
-                time.sleep(0.5)
+                time.sleep(0.2)
                 """
                 print("Bobber not found. Recasting...")
                 pyautogui.mouseUp()

@@ -111,7 +111,7 @@ class FishingBot:
         pyautogui.mouseDown()
         pyautogui.mouseUp()
         print("do_minigame")
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
         valid, location, size = self.image_detection.detect_bobber()
         if valid:

@@ -91,7 +91,7 @@ class GUIManager:
         Llama a la función para definir la zona de seguimiento.
         """
         self.bot_config_manager.grab_screen(log_callback=self.log_info)
-        self.image_detection.screen_area = self.bot_confirg_manage.screen_area
+        self.image_detection.screen_area = self.bot_config_manager.screen_area
         self.log_info(f"Tracking zone updated: {self.image_detection.screen_area}")
 
     def start_bot(self, sender, data):

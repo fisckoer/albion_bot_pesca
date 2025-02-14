@@ -75,11 +75,11 @@ class AudioManager:
         if rms < self.max_volume:
             return False  # Ignorar sonidos débiles
         
-        """ Guardar el sonido fuerte en un archivo .wav con timestamp
+        # Guardar el sonido fuerte en un archivo .wav con timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"./sound_{timestamp}.wav"
         sf.write(filename, audio_data, self.sample_rate)
-        print(f"💾 Sonido fuerte guardado en: {filename}")"""
+        print(f"💾 Sonido fuerte guardado en: {filename}")
 
         # Comparar con cada muestra en la matriz de referencia
         for sample_name, reference_audio in self.reference_samples.items():

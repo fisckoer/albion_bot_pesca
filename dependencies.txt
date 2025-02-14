@@ -1,0 +1,9 @@
+pyautogui 
+opencv-python 
+numpy 
+mss 
+pywin32 
+sounddevice  
+soundfile 
+scipy dearpygui
+pip install numpy scipy tqdm pandas librosa ffmpeg
