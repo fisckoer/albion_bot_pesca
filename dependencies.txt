@@ -1,3 +1,4 @@
+#python 3.10
 pyautogui 
 opencv-python 
 numpy 
@@ -5,5 +6,7 @@ mss
 pywin32 
 sounddevice  
 soundfile 
-scipy dearpygui
-pip install numpy scipy tqdm pandas librosa ffmpeg
+scipy 
+dearpygui
+numpy==1.26.4
+pyannote.audio==2.1.1
